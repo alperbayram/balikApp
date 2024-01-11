@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {HomeStack, PriceStack} from '../Stack';
+import {HomeStack, InfoStack} from '../Stack';
 import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 const Tab = createBottomTabNavigator();
@@ -19,8 +19,8 @@ const BottomTabs = () => {
         }}
       />
       <Tab.Screen
-        name="TabPricese"
-        component={PriceStack}
+        name="TabInfo"
+        component={InfoStack}
         options={{
           headerShown: false,
           tabBarIcon: ({color, size}) => (
