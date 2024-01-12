@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=react,vite,ts" />
+  <br/>
+</p>
+<br/><br/>
+
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
