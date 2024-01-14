@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, TextInput, StyleSheet, FlatList, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PulseAnimation from '../../components/PulseAnimation';
 import useFetch from '../../hooks/useFetch';
-import SplashScreen from '../SplashScreen';
 
 const Item = ({item, index}: any) => {
   return (
@@ -21,7 +21,7 @@ const Item = ({item, index}: any) => {
         source={{uri: 'https://balik-api.vercel.app/' + item.image.src}}
         style={styles.image}
       />
-      <Text className='text-xs'>{item.bilgi.isim}</Text>
+      <Text className="text-xs">{item.bilgi.isim}</Text>
     </View>
   );
 };
@@ -30,10 +30,6 @@ export default function InfoScreen() {
   const {data, loading, error} = useFetch({
     url: 'https://balik-api.vercel.app/baliks',
   });
-
-  if (loading) {
-    return <SplashScreen></SplashScreen>;
-  }
 
   if (error) {
     return <Text>{error}</Text>;
@@ -61,14 +57,20 @@ export default function InfoScreen() {
           autoCapitalize="none"
         />
       </View>
-      <View style={styles.app}>
-        <FlatList
-          data={data.sort((a:any, b:any) => a.bilgi.isim.localeCompare(b.bilgi.isim))}
-          numColumns={2}
-          renderItem={Item}
-          keyExtractor={item => item.bilgi.isim}
-        />
-      </View>
+      {loading ? (
+        <PulseAnimation></PulseAnimation>
+      ) : (
+        <View style={styles.app}>
+          <FlatList
+            data={data.sort((a: any, b: any) =>
+              a.bilgi.isim.localeCompare(b.bilgi.isim),
+            )}
+            numColumns={2}
+            renderItem={Item}
+            keyExtractor={item => item.bilgi.isim}
+          />
+        </View>
+      )}
     </View>
   );
 }

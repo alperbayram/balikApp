@@ -17,6 +17,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import SplashScreen from '../SplashScreen';
+import PulseAnimationList from '../../components/PulseAnimationList';
 
 export default function HomeScreen() {
   const [date, setDate] = useState(new Date());
@@ -54,10 +55,6 @@ export default function HomeScreen() {
     }
   }, [searchTerm]);
 
-  if (loading) {
-    return <SplashScreen></SplashScreen>;
-  }
-
   if (error) {
     return <Text>{error}</Text>;
   }
@@ -66,7 +63,6 @@ export default function HomeScreen() {
       <Text className="text-black text-center p-6 text-lg">
         İzmir Hal Balık Fiyatları
       </Text>
-
       <View className="flex flex-row">
         <View className="pl-6 w-3/5">
           <View className="relative z-50">
@@ -123,37 +119,41 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <FlatList
-        data={
-          searchResults && searchResults.length
-            ? searchResults
-            : data.HalFiyatListesi
-        }
-        renderItem={({item}) => (
-          <View className="px-6">
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Modal', item)}>
-              <View className="border-t border-blue-500 rounded-lg py-4 px-2 flex flex-row justify-between">
-                <View>
-                  <Text className="text-black text-sm">{item.MalAdi}</Text>
-                  <Text className="text-black text-xs">{item.Birim}</Text>
-                </View>
-                <View className="flex flex-row">
+      {loading ? (
+        <PulseAnimationList></PulseAnimationList>
+      ) : (
+        <FlatList
+          data={
+            searchResults && searchResults.length
+              ? searchResults
+              : data.HalFiyatListesi
+          }
+          renderItem={({item}) => (
+            <View className="px-6">
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Modal', item)}>
+                <View className="border-t border-blue-500 rounded-lg py-4 px-2 flex flex-row justify-between">
                   <View>
-                    <Text className="text-black text-sm">
-                      {item.AsgariUcret}₺
-                    </Text>
-                    <Text className="text-black text-sm">
-                      {item.AzamiUcret}₺
-                    </Text>
+                    <Text className="text-black text-sm">{item.MalAdi}</Text>
+                    <Text className="text-black text-xs">{item.Birim}</Text>
+                  </View>
+                  <View className="flex flex-row">
+                    <View>
+                      <Text className="text-black text-sm">
+                        {item.AsgariUcret}₺
+                      </Text>
+                      <Text className="text-black text-sm">
+                        {item.AzamiUcret}₺
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-        keyExtractor={item => item.MalId}
-      />
+              </TouchableOpacity>
+            </View>
+          )}
+          keyExtractor={item => item.MalId}
+        />
+      )}
     </View>
   );
 }
