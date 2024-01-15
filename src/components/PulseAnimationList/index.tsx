@@ -69,9 +69,8 @@ const styles = StyleSheet.create({
   },
   box: {
     width: '100%',
-    height: 80,
-    padding: 10,
-    marginBottom:10,
+    height: 60,
+    marginBottom:20,
     backgroundColor: '#cbd5e1',
   },
 });

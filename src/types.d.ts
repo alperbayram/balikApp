@@ -8,7 +8,7 @@ export interface Results {
 }
 
 export type StackScreens = {
-  HomeScreen: undefined;
-  InfoScreen: undefined;
+  Home: undefined;
+  Info: undefined;
   Modal: Results;
 };

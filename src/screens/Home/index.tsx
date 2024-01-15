@@ -11,23 +11,20 @@ import {
 import useFetch from '../../hooks/useFetch';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import useAppNavigation from '../../hooks/useAppNavigation';
-import SplashScreen from '../SplashScreen';
 import PulseAnimationList from '../../components/PulseAnimationList';
 
 export default function HomeScreen() {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState('');
+  const [dataurl, setDataUrl] = useState(
+    `https://openapi.izmir.bel.tr/api/ibb/halfiyatlari/balik/`,
+  );
   const {data, loading, error} = useFetch({
-    url: 'https://openapi.izmir.bel.tr/api/ibb/halfiyatlari/balik/2022-12-12',
+    url: dataurl,
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const navigation = useAppNavigation();
-
   //add date
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const showDatePicker = () => {
@@ -37,14 +34,15 @@ export default function HomeScreen() {
     setDatePickerVisibility(false);
   };
   const handleConfirm = (date: any) => {
-    setDate(date);
+    const newDate = moment(new Date(date)).format('yyyy-MM-DD');
+    setDate(newDate);
     hideDatePicker();
   };
 
   //add Search
   const handleSearch = (data: any) => {
     const results = data.filter((item: any) =>
-      item.MalAdi.startsWith(searchTerm.toUpperCase()),
+      item.MalAdi.toUpperCase().includes(searchTerm.toUpperCase()),
     );
     setSearchResults(results);
   };
@@ -54,6 +52,12 @@ export default function HomeScreen() {
       handleSearch(data.HalFiyatListesi);
     }
   }, [searchTerm]);
+
+  useEffect(() => {
+    setDataUrl(
+      `https://openapi.izmir.bel.tr/api/ibb/halfiyatlari/balik/${date}`,
+    );
+  }, [date]);
 
   if (error) {
     return <Text>{error}</Text>;
@@ -92,9 +96,7 @@ export default function HomeScreen() {
             </View>
           </View>
           <View className="flex justify-center h-12 pr-12 pl-4 rounded-xl text-sm border border-blue-500">
-            <Text className="w-full">
-              {date && moment(new Date(date)).format('MM/DD/yyyy')}
-            </Text>
+            <Text className="w-full text-xs">{date && date}</Text>
           </View>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -106,16 +108,15 @@ export default function HomeScreen() {
           />
         </TouchableOpacity>
       </View>
-
-      <View className="flex flex-row justify-between px-8 py-6">
+      <View className="flex flex-row justify-between px-6 py-4 border-b border-blue-500 mx-2">
         <View>
-          <Text className="text-lg">Balık Türü</Text>
-          <Text className="text-sm">Birim</Text>
+          <Text className="text-lg font-semibold">Balık Türü</Text>
+          <Text className="text-sm font-semibold">Birim</Text>
         </View>
         <View className="">
-          <Text className="text-lg text-right">Fiyat</Text>
-          <Text className="text-xs text-right">En Düşük</Text>
-          <Text className="text-xs text-right">En Yüksek</Text>
+          <Text className="text-lg text-right font-semibold">Fiyat</Text>
+          <Text className="text-xs text-right font-semibold">En Yüksek</Text>
+          <Text className="text-xs text-right font-semibold">En Düşük</Text>
         </View>
       </View>
 
@@ -129,26 +130,25 @@ export default function HomeScreen() {
               : data.HalFiyatListesi
           }
           renderItem={({item}) => (
-            <View className="px-6">
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Modal', item)}>
-                <View className="border-t border-blue-500 rounded-lg py-4 px-2 flex flex-row justify-between">
+            <View className="px-2">
+              <View className="border-b border-blue-500 py-4 px-6 flex flex-row justify-between">
+                <View>
+                  <Text className="text-black text-sm font-medium">
+                    {item.MalAdi}
+                  </Text>
+                  <Text className="text-black text-xs">{item.Birim}</Text>
+                </View>
+                <View className="flex flex-row">
                   <View>
-                    <Text className="text-black text-sm">{item.MalAdi}</Text>
-                    <Text className="text-black text-xs">{item.Birim}</Text>
-                  </View>
-                  <View className="flex flex-row">
-                    <View>
-                      <Text className="text-black text-sm">
-                        {item.AsgariUcret}₺
-                      </Text>
-                      <Text className="text-black text-sm">
-                        {item.AzamiUcret}₺
-                      </Text>
-                    </View>
+                    <Text className="text-black text-sm text-right">
+                      {item.AzamiUcret}₺
+                    </Text>
+                    <Text className="text-black text-sm text-right">
+                      {item.AsgariUcret}₺
+                    </Text>
                   </View>
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
           )}
           keyExtractor={item => item.MalId}

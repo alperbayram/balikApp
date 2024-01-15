@@ -1,35 +1,39 @@
-import React from 'react';
-import {View, Text, TextInput, StyleSheet, FlatList, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PulseAnimation from '../../components/PulseAnimation';
+import useAppNavigation from '../../hooks/useAppNavigation';
 import useFetch from '../../hooks/useFetch';
 
-const Item = ({item, index}: any) => {
-  return (
-    <View
-      style={[
-        styles.item,
-        index % 2 === 0
-          ? {
-              marginRight: 0,
-            }
-          : {
-              marginLeft: 20,
-            },
-      ]}>
-      <Image
-        source={{uri: 'https://balik-api.vercel.app/' + item.image.src}}
-        style={styles.image}
-      />
-      <Text className="text-xs">{item.bilgi.isim}</Text>
-    </View>
-  );
-};
-
 export default function InfoScreen() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const navigation = useAppNavigation();
   const {data, loading, error} = useFetch({
     url: 'https://balik-api.vercel.app/baliks',
   });
+
+  //add Search
+  const handleSearch = (data: any) => {
+    const results = data.filter((item: any) =>
+      item.bilgi.isim.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    setSearchResults(results);
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleSearch(data);
+    }
+  }, [searchTerm]);
 
   if (error) {
     return <Text>{error}</Text>;
@@ -49,8 +53,8 @@ export default function InfoScreen() {
         <TextInput
           className="block border border-blue-500 w-full h-12 pr-12 pl-4 rounded-xl  text-sm placeholder-gray-100 focus:outline-none focus:text-gray-900"
           textAlignVertical="center"
-          // value={searchTerm}
-          // onChangeText={setSearchTerm}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
           placeholder="Balık Ara"
           placeholderTextColor="#6B7280"
           keyboardType="ascii-capable"
@@ -62,11 +66,37 @@ export default function InfoScreen() {
       ) : (
         <View style={styles.app}>
           <FlatList
-            data={data.sort((a: any, b: any) =>
-              a.bilgi.isim.localeCompare(b.bilgi.isim),
-            )}
+            data={
+              searchResults && searchResults.length
+                ? searchResults
+                : data.sort((a: any, b: any) =>
+                    a.bilgi.isim.localeCompare(b.bilgi.isim),
+                  )
+            }
             numColumns={2}
-            renderItem={Item}
+            renderItem={({item,index})=>(
+              <View
+              style={[
+                styles.item,
+                index % 2 === 0
+                  ? {
+                      marginRight: 0,
+                    }
+                  : {
+                      marginLeft: 20,
+                    },
+              ]}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Modal', item)}
+                className="w-full flex text-center justify-center items-center">
+                <Image
+                  source={{uri: 'https://balik-api.vercel.app/' + item.image.src}}
+                  style={styles.image}
+                />
+                <Text className="text-xs font-medium">{item.bilgi.isim}</Text>
+              </TouchableOpacity>
+            </View>
+            )}
             keyExtractor={item => item.bilgi.isim}
           />
         </View>
