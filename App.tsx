@@ -14,12 +14,10 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Router} from './src/routes';
-
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,13 +27,15 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <SafeAreaView style={[styles.view]}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Router />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={[styles.view]}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <Router />
+      </SafeAreaView>
+    </Provider>
   );
 }
 

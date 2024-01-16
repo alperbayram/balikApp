@@ -16,7 +16,10 @@ import moment from 'moment';
 import PulseAnimationList from '../../components/PulseAnimationList';
 
 export default function HomeScreen() {
-  const [date, setDate] = useState('');
+  const lastDate = moment(new Date().setDate(new Date().getDate() - 1)).format(
+    'yyyy-MM-DD',
+  );
+  const [date, setDate] = useState(lastDate);
   const [dataurl, setDataUrl] = useState(
     `https://openapi.izmir.bel.tr/api/ibb/halfiyatlari/balik/`,
   );
@@ -64,7 +67,7 @@ export default function HomeScreen() {
   }
   return (
     <View className="bg-white h-full">
-      <Text className="text-black text-center p-6 text-lg">
+      <Text className="text-black text-center p-6 text-2xl font-bold">
         İzmir Hal Balık Fiyatları
       </Text>
       <View className="flex flex-row">

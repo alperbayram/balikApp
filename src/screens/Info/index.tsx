@@ -7,11 +7,21 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
 import PulseAnimation from '../../components/PulseAnimation';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import useFetch from '../../hooks/useFetch';
+import {addToFavorites, removeFromFavorites} from '../../redux/reducer';
+import {AppState, Item} from '../../redux/types';
+
+const listitem = [
+  {id: 1, name: 'Item 1'},
+  {id: 2, name: 'Item 2'},
+  {id: 3, name: 'Item 3'},
+];
 
 export default function InfoScreen() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,9 +49,28 @@ export default function InfoScreen() {
     return <Text>{error}</Text>;
   }
 
+  //redux
+  const dispatch = useDispatch();
+  const favorites = useSelector(
+    (state: {app: AppState}) => state.app.favorites,
+  );
+  const handleAddToFavorites = (item: Item) => {
+    const isAlreadyInFavorites = favorites.some(
+      fav => fav.bilgi.isim === item.bilgi.isim,
+    );
+    if (!isAlreadyInFavorites) {
+      dispatch(addToFavorites(item));
+    }
+  };
+  const handleRemoveFromFavorites = (itemId: string) => {
+    dispatch(removeFromFavorites(itemId));
+  };
+
   return (
     <View className="bg-white h-full">
-      <Text className="text-black text-center p-6 text-lg">Balık Türleri</Text>
+      <Text className="text-black text-center p-6 text-2xl font-bold">
+        Balık Türleri
+      </Text>
       <View className="px-6 pb-6">
         <View className="relative z-50">
           <View className="absolute inset-y-2 right-2">
@@ -74,28 +103,57 @@ export default function InfoScreen() {
                   )
             }
             numColumns={2}
-            renderItem={({item,index})=>(
+            renderItem={({item, index}) => (
               <View
-              style={[
-                styles.item,
-                index % 2 === 0
-                  ? {
-                      marginRight: 0,
-                    }
-                  : {
-                      marginLeft: 20,
-                    },
-              ]}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Modal', item)}
-                className="w-full flex text-center justify-center items-center">
-                <Image
-                  source={{uri: 'https://balik-api.vercel.app/' + item.image.src}}
-                  style={styles.image}
-                />
-                <Text className="text-xs font-medium">{item.bilgi.isim}</Text>
-              </TouchableOpacity>
-            </View>
+                style={[
+                  styles.item,
+                  index % 2 === 0
+                    ? {
+                        marginRight: 0,
+                      }
+                    : {
+                        marginLeft: 20,
+                      },
+                ]}>
+                <View className="relative z-50 -inset-y-2 left-12">
+                  <View className="absolute">
+                    {favorites.some(
+                      fav => fav.bilgi.isim === item.bilgi.isim,
+                    ) ? (
+                      <TouchableOpacity
+                        onPress={() =>
+                          handleRemoveFromFavorites(item.bilgi.isim)
+                        }>
+                        <View className="w-9 h-9 flex items-center justify-center">
+                          <Icon name="heart" size={24} color="red" />
+                        </View>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => handleAddToFavorites(item)}>
+                        <View className="w-9 h-9 flex items-center justify-center">
+                          <Icon name="heart-outline" size={24} color="red" />
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
+                <View className="w-full flex text-center justify-center items-center p-2">
+                  <TouchableOpacity
+                    className="w-full flex text-center justify-center items-center"
+                    onPress={() => navigation.navigate('Modal', item)}>
+                    <Image
+                      source={{
+                        uri: 'https://balik-api.vercel.app/' + item.image.src,
+                      }}
+                      style={styles.image}
+                    />
+                    <Text className="text-xs font-semibold truncate">
+                      {item.bilgi.isim.split(' ').slice(0, 4).join(' ')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             )}
             keyExtractor={item => item.bilgi.isim}
           />
@@ -118,7 +176,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 175,
-    padding: 10,
     marginBottom: 20,
     borderWidth: 1,
     borderRadius: 20,

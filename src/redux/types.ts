@@ -1,12 +1,9 @@
-export interface Results {
-  MalAdi: string;
-  MalTipAdi: string;
-  HalTuru: string;
-  Birim: string;
-  AsgariUcret: number;
-  AzamiUcret: number;
+// src/redux/types.ts
+export interface AppState {
+  items: Item[];
+  favorites: Item[];
 }
-export interface FishItem {
+export interface Item {
   bilgi: {
     isim: string;
     arastirma: string;
@@ -26,9 +23,3 @@ export interface FishItem {
     alt: string;
   };
 }
-
-export type StackScreens = {
-  Home: undefined;
-  Info: undefined;
-  Modal: Results;
-};
