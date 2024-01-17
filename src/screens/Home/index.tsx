@@ -38,6 +38,7 @@ export default function HomeScreen() {
   const handleConfirm = (date: any) => {
     const newDate = moment(new Date(date)).format('yyyy-MM-DD');
     setDate(newDate);
+    setSearchResults([])
     hideDatePicker();
   };
 

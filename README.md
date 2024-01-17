@@ -1,16 +1,20 @@
+# Balık App
+
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=react,vite,ts" />
+  <img src="https://skillicons.dev/icons?i=react,ts,redux,tailwind" />
   <br/>
 </p>
 <br/><br/>
 
+<img alt="ios" height="400" width="100%" longdesc="iOS" src="https://raw.githubusercontent.com/alperbayram/balikApp/main/app.png" />
 
+<img alt="android" height="400" width="100%" longdesc="android" src="https://raw.githubusercontent.com/alperbayram/balikApp/main/android.png" />
 
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
