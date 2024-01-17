@@ -1,14 +1,28 @@
 # Balık App
 
+
+
+<p>
+  <!-- iOS -->
+  <a>
+    <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
+  </a>
+</p>
+
+<img alt="ios" height="300" width="100%" longdesc="iOS" src="https://raw.githubusercontent.com/alperbayram/balikApp/main/app.png?token=GHSAT0AAAAAABZ6P726CCTIELXUFHPTCR6WZNIBKBA" />
+<p>
+  <!-- Android -->
+  <a>
+    <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
+  </a>
+</p>
+<img alt="android" height="300" width="100%" longdesc="android" src="https://raw.githubusercontent.com/alperbayram/balikApp/main/android.png?token=GHSAT0AAAAAABZ6P727RLVVVE25ASBRLCPCZNIBKKA" />
+
 <p align="center">
   <img src="https://skillicons.dev/icons?i=react,ts,redux,tailwind" />
   <br/>
 </p>
 <br/><br/>
-
-<img alt="ios" height="400" width="100%" longdesc="iOS" src="https://raw.githubusercontent.com/alperbayram/balikApp/main/app.png" />
-
-<img alt="android" height="400" width="100%" longdesc="android" src="https://raw.githubusercontent.com/alperbayram/balikApp/main/android.png" />
 
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
