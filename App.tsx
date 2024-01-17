@@ -4,22 +4,21 @@
  *
  * @format
  */
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Router} from './src/routes';
+import {AnimatedBootSplash} from './src/screens/SplashScreen';
 
 function App(): React.JSX.Element {
+  const [visible, setVisible] = useState(true);
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -27,15 +26,22 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <Provider store={store}>
-      <SafeAreaView style={[styles.view]}>
+    <SafeAreaView style={[styles.view]}>
+      <Provider store={store}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
         <Router />
-      </SafeAreaView>
-    </Provider>
+      </Provider>
+      {visible && (
+        <AnimatedBootSplash
+          onAnimationEnd={() => {
+            setVisible(!visible);
+          }}
+        />
+      )}
+    </SafeAreaView>
   );
 }
 

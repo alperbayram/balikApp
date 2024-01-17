@@ -1,18 +1,35 @@
-import {View, Text, Image} from 'react-native';
+import {useState} from 'react';
+import {Animated} from 'react-native';
+import BootSplash from 'react-native-bootsplash';
 
-const image = {
-  uri: 'https://media.istockphoto.com/id/147551317/photo/water-fish-splash-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=sn0ZXV2xEh6NcK1XBAQDhmetbBNq7ULpL8tl_M9p2Hk=',
+type Props = {
+  onAnimationEnd: () => void;
 };
 
-export default function SplashScreen() {
+export const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
+  const [opacity] = useState(() => new Animated.Value(1));
+  const {container, logo} = BootSplash.useHideAnimation({
+    manifest: require('../../assets/bootsplash_manifest.json'),
+
+    logo: require('../../assets/image/fish4.png'),
+
+    statusBarTranslucent: true,
+    navigationBarTranslucent: false,
+
+    animate: () => {
+      Animated.timing(opacity, {
+        useNativeDriver: true,
+        toValue: 0,
+        duration: 500,
+      }).start(() => {
+        onAnimationEnd();
+      });
+    },
+  });
+
   return (
-    <View className="bg-white h-full w-full flex justify-center items-center">
-      <Image
-        source={image}
-        style={{
-          height: 400,
-          width: 400,
-        }}></Image>
-    </View>
+    <Animated.View {...container} style={[container.style, {opacity}]}>
+      <Animated.Image {...logo} style={[logo.style]} />
+    </Animated.View>
   );
-}
+};

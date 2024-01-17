@@ -59,9 +59,9 @@ const PulseAnimationList: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 26,
+    paddingHorizontal: 8,
     backgroundColor: 'white',
-    marginTop: 20,
+    marginTop: 10,
   },
   row: {
     flexDirection: 'column',
@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
   },
   box: {
     width: '100%',
-    height: 60,
-    marginBottom:20,
+    borderRadius: 12,
+    height: 70,
+    marginBottom: 20,
     backgroundColor: '#cbd5e1',
   },
 });

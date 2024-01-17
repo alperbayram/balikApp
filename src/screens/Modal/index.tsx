@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {FishItem, Results} from '../../types';
+import {FishItem} from '../../types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState, Item} from '../../redux/types';
@@ -41,13 +41,13 @@ export default function Modal() {
           <TouchableOpacity
             onPress={() => handleRemoveFromFavorites(params.bilgi.isim)}>
             <View className="w-9 h-9 flex items-center justify-center">
-              <Icon name="heart" size={36} color="red" />
+              <Icon name="heart" size={36} color="#3b82f6" />
             </View>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={() => handleAddToFavorites(params)}>
             <View className="w-9 h-9 flex items-center justify-center">
-              <Icon name="heart-outline" size={36} color="red" />
+              <Icon name="heart-outline" size={36} color="#3b82f6" />
             </View>
           </TouchableOpacity>
         )}

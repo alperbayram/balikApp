@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Animated, Easing, StyleSheet, ScrollView} from 'react-native';
+import {View, Animated, Easing, StyleSheet, Platform} from 'react-native';
 
 const PulseAnimation: React.FC = () => {
   const animatedValues: Animated.Value[] = [];
@@ -38,88 +38,91 @@ const PulseAnimation: React.FC = () => {
   }, []);
 
   return (
-      <View style={styles.container}>
-        <View style={styles.row}>
-          {animatedValues.slice(0, 2).map((animatedValue, index) => (
-            <Animated.View
-              key={index}
-              style={[
-                styles.box,
-                index % 2 === 0
-                  ? {
-                      marginRight: 0,
-                    }
-                  : {
-                      marginLeft: 20,
-                    },
-                {
-                  opacity: animatedValue,
-                },
-              ]}
-            />
-          ))}
-        </View>
-        <View style={styles.row}>
-          {animatedValues.slice(2, 4).map((animatedValue, index) => (
-            <Animated.View
-              key={index + 2}
-              style={[
-                styles.box,
-                index % 2 === 0
-                  ? {
-                      marginRight: 0,
-                    }
-                  : {
-                      marginLeft: 20,
-                    },
-                {
-                  opacity: animatedValue,
-                },
-              ]}
-            />
-          ))}
-        </View>
-        <View style={styles.row}>
-          {animatedValues.slice(4, 6).map((animatedValue, index) => (
-            <Animated.View
-              key={index + 4}
-              style={[
-                styles.box,
-                index % 2 === 0
-                  ? {
-                      marginRight: 0,
-                    }
-                  : {
-                      marginLeft: 20,
-                    },
-                {
-                  opacity: animatedValue,
-                },
-              ]}
-            />
-          ))}
-        </View>
-        <View style={styles.row}>
-          {animatedValues.slice(6, 8).map((animatedValue, index) => (
-            <Animated.View
-              key={index + 6}
-              style={[
-                styles.box,
-                index % 2 === 0
-                  ? {
-                      marginRight: 0,
-                    }
-                  : {
-                      marginLeft: 20,
-                    },
-                {
-                  opacity: animatedValue,
-                },
-              ]}
-            />
-          ))}
-        </View>
+    <View
+      style={
+        Platform.OS === 'android' ? styles.containerandroid : styles.container
+      }>
+      <View style={styles.row}>
+        {animatedValues.slice(0, 2).map((animatedValue, index) => (
+          <Animated.View
+            key={index}
+            style={[
+              styles.box,
+              index % 2 === 0
+                ? {
+                    marginRight: 0,
+                  }
+                : {
+                    marginLeft: 20,
+                  },
+              {
+                opacity: animatedValue,
+              },
+            ]}
+          />
+        ))}
       </View>
+      <View style={styles.row}>
+        {animatedValues.slice(2, 4).map((animatedValue, index) => (
+          <Animated.View
+            key={index + 2}
+            style={[
+              styles.box,
+              index % 2 === 0
+                ? {
+                    marginRight: 0,
+                  }
+                : {
+                    marginLeft: 20,
+                  },
+              {
+                opacity: animatedValue,
+              },
+            ]}
+          />
+        ))}
+      </View>
+      <View style={styles.row}>
+        {animatedValues.slice(4, 6).map((animatedValue, index) => (
+          <Animated.View
+            key={index + 4}
+            style={[
+              styles.box,
+              index % 2 === 0
+                ? {
+                    marginRight: 0,
+                  }
+                : {
+                    marginLeft: 20,
+                  },
+              {
+                opacity: animatedValue,
+              },
+            ]}
+          />
+        ))}
+      </View>
+      <View style={styles.row}>
+        {animatedValues.slice(6, 8).map((animatedValue, index) => (
+          <Animated.View
+            key={index + 6}
+            style={[
+              styles.box,
+              index % 2 === 0
+                ? {
+                    marginRight: 0,
+                  }
+                : {
+                    marginLeft: 20,
+                  },
+              {
+                opacity: animatedValue,
+              },
+            ]}
+          />
+        ))}
+      </View>
+    </View>
   );
 };
 
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 36,
     backgroundColor: 'white',
-    marginTop:140,
+    marginTop: 140,
   },
   row: {
     flexDirection: 'row',
@@ -142,6 +145,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     backgroundColor: '#cbd5e1',
+  },
+  containerandroid: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 36,
+    backgroundColor: 'white',
+    marginTop: 340,
   },
 });
 

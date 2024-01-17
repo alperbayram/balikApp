@@ -7,7 +7,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,12 +15,6 @@ import useAppNavigation from '../../hooks/useAppNavigation';
 import useFetch from '../../hooks/useFetch';
 import {addToFavorites, removeFromFavorites} from '../../redux/reducer';
 import {AppState, Item} from '../../redux/types';
-
-const listitem = [
-  {id: 1, name: 'Item 1'},
-  {id: 2, name: 'Item 2'},
-  {id: 3, name: 'Item 3'},
-];
 
 export default function InfoScreen() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -80,7 +73,7 @@ export default function InfoScreen() {
           </View>
         </View>
         <TextInput
-          className="block border border-blue-500 w-full h-12 pr-12 pl-4 rounded-xl  text-sm placeholder-gray-100 focus:outline-none focus:text-gray-900"
+          className="block border border-gray-500 w-full h-12 pr-12 pl-4 rounded-xl  text-sm placeholder-gray-100 focus:outline-none focus:text-gray-900"
           textAlignVertical="center"
           value={searchTerm}
           onChangeText={setSearchTerm}
@@ -125,14 +118,14 @@ export default function InfoScreen() {
                           handleRemoveFromFavorites(item.bilgi.isim)
                         }>
                         <View className="w-9 h-9 flex items-center justify-center">
-                          <Icon name="heart" size={24} color="red" />
+                          <Icon name="heart" size={24} color="#3b82f6" />
                         </View>
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity
                         onPress={() => handleAddToFavorites(item)}>
                         <View className="w-9 h-9 flex items-center justify-center">
-                          <Icon name="heart-outline" size={24} color="red" />
+                          <Icon name="heart-outline" size={24} color="#3b82f6" />
                         </View>
                       </TouchableOpacity>
                     )}
@@ -179,7 +172,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 1,
     borderRadius: 20,
-    borderColor: '#3b82f6',
+    borderColor: '#6b7280',
   },
   image: {
     height: 100,

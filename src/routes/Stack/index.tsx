@@ -33,13 +33,17 @@ const InfoStack = () => {
         name="Info"
         component={InfoScreen}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="Modal"
         component={Modal}
         options={{
           presentation: 'modal',
+          title: 'Balık Türü',
+          headerTitleStyle:{
+            fontSize:20
+          },
           headerLeft: () => (
-            <Button title="Kapat" onPress={() => navigation.navigate("Info")} />
+            <Button title="Kapat" onPress={() => navigation.navigate('Info')} />
           ),
         }}
       />
